@@ -3,7 +3,7 @@ import { createMachine } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { Graphviz } from 'graphviz-react';
 
-const hilera = '01011';
+const hilera = 'ABABBAABBBA';
 
 // digraph {
 //     rankdir=LR
@@ -15,6 +15,31 @@ const hilera = '01011';
 //     d -> e
 //     e -> a
 // }
+
+// const states = {
+//   initial: 'green',
+//   // State definitions
+//   states: {
+//     green: {
+//       on: {
+//         0: 'red',
+//         1: 'yellow',
+//       },
+//     },
+//     yellow: {
+//       on: {
+//         0: 'green',
+//         1: 'yellow',
+//       },
+//     },
+//     red: {
+//       on: {
+//         0: 'green',
+//         1: 'yellow',
+//       },
+//     },
+//   },
+// };
 
 const printKeys = states => {
   let string = 'digraph { rankdir=LR';
@@ -29,7 +54,7 @@ const printKeys = states => {
   return string;
 };
 
-const StateMachine = ({ states }) => {
+const StateMachine = ({states}) => {
   const [index, setIndex] = useState(0);
 
   const [state, send] = useMachine(() =>
@@ -44,7 +69,7 @@ const StateMachine = ({ states }) => {
   return (
     <div className="App">
       <h1>Estado: {state.value}</h1>
-      <p>Caracter procesado: {hilera.charAt(index)}</p>
+      <p>Caracter procesado: {hilera.charAt(index) ? hilera.charAt(index) : 'λ'}</p>
       <button
         onClick={() => {
           send(hilera.charAt(index));
@@ -59,4 +84,4 @@ const StateMachine = ({ states }) => {
   );
 };
 
-export default memo(StateMachine);
+export default StateMachine;

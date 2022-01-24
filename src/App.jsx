@@ -1,33 +1,13 @@
-import StateMachine from './components/StateMachine/StateMachine';
+import PageRouter from './pages';
+import StateMachineProvider from './context';
 import './App.css';
 
-const states = {
-  initial: 'green',
-  // State definitions
-  states: {
-    green: {
-      on: {
-        0: 'red',
-        1: 'yellow',
-      },
-    },
-    yellow: {
-      on: {
-        0: 'green',
-        1: 'yellow',
-      },
-    },
-    red: {
-      on: {
-        0: 'green',
-        1: 'yellow',
-      },
-    },
-  },
-};
-
 function App() {
-  return <StateMachine states={states} />;
+  return (
+    <StateMachineProvider>
+      <PageRouter />
+    </StateMachineProvider>
+  );
 }
 
 export default App;

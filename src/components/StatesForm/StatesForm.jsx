@@ -14,9 +14,10 @@ const StatesForm = () => {
     control,
   } = useForm({
     defaultValues: {
-      states: [{ state: 'q0', ...stateTransitions }],
+      states: [{ state: 'q0', finalState: false, ...stateTransitions }],
     },
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'states',
@@ -48,7 +49,6 @@ const StatesForm = () => {
             <label key={index} htmlFor="states">
               Estado {`q${index}`}
             </label>
-
             {symbols.map(symbol => {
               return (
                 <input
@@ -57,9 +57,12 @@ const StatesForm = () => {
                     required: true,
                   })}
                   key={`${field.id}${symbol}`}
+                  placeholder={`Transición con ${symbol}`}
                 />
               );
             })}
+            <input type="checkbox" {...register(`states.${index}.finalState`)} />
+            <span>Estado de aceptación?</span>
           </div>
         ))}
         {/* {errors.exampleRequired && <span>This field is required</span>}         */}

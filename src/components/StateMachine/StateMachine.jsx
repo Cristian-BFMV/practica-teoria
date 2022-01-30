@@ -59,9 +59,7 @@ const StateMachine = ({states}) => {
 
   const [state, send] = useMachine(() =>
     createMachine({
-      // Machine identifier
       id: 'state-machine',
-      // Initial state
       ...states,
     })
   );

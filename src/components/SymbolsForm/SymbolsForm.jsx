@@ -27,17 +27,14 @@ const SymbolsForm = () => {
 
   return (
     <div className="symbols-form-container">
-      <form onSubmit={handleSubmit(onSubmit)} className="symbols-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h2>Formulario de simbolos de entrada</h2>
         <label htmlFor="symbols-number">Número de simbolos del automata</label>
-        <select
-          {...register('number_of_symbols')}
-          className="symbols-input"
-          id="symbols-number"
-        >
+        <select {...register('number_of_symbols')} className="input" id="symbols-number">
           <option value="2">Dos</option>
           <option value="3">Tres</option>
           <option value="4">Cuatro</option>
+          <option value="5">Cinco</option>
         </select>
         <p>Por favor ingrese los simbolos separados por comas</p>
         <label htmlFor="symbols-state">Simbolos de entrada</label>
@@ -49,23 +46,21 @@ const SymbolsForm = () => {
               message: 'Este campo es requerido',
             },
             pattern: {
-              value: /^(?:([A-D])(?!.*?\1),)*[A-D]$/,
+              value: /^(?:([A-Z])(?!.*?\1),)*[A-Z]$/,
               message: 'Siga el formato indicado >:(',
             },
           })}
-          className="symbols-input"
+          className="input"
           placeholder="Ej: A,B,C,D"
         />
-        {errors.symbols && (
-          <span className="symbols-form-error">{errors.symbols.message}</span>
-        )}
+        {errors.symbols && <span className="form-error">{errors.symbols.message}</span>}
         {stateMachineError && (
-          <span className="symbols-form-error">
+          <span className="form-error">
             El número de simbolos no coincide con los ingresados
           </span>
         )}
-        <button type="submit" className="symbols-button">
-          Ingresar automata
+        <button type="submit" className="button">
+          Ingresar simbolos
         </button>
       </form>
     </div>

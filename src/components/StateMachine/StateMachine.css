@@ -1,0 +1,32 @@
+.loading-spinner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.state-machine-container {
+  display: grid;
+  grid-template: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 'state-input state-graph';
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.state-machine-graph {
+  grid-area: state-graph;
+}
+
+.state-machine-input-container {
+  grid-area: state-input;
+}
+
+.state-machine-form {
+  margin: 2rem 0 0 0;
+}
+
+.highlight {
+  color: rgb(35, 35, 255);
+  font-weight: bold;
+}

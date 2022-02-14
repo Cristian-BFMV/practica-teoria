@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { StateMachineContext } from '../../context';
 import StateMachineTest from './StateMachine';
+import Spinner from '../Spinner/Spinner';
+import './StateMachine.css';
 
 const createStateMachine = (states, symbols) => {
   const stateMachine = {
@@ -10,12 +13,12 @@ const createStateMachine = (states, symbols) => {
 
   return new Promise(resolve => {
     states.forEach(state => {
-      const onTransition = {}
+      const onTransition = {};
       symbols.forEach(symbol => {
         Object.assign(onTransition, {
-          [symbol]: state[`transitionOn${symbol}`]
-        })
-      })
+          [symbol]: state[`transitionOn${symbol}`],
+        });
+      });
       Object.assign(stateMachine.states, {
         [state.state]: {
           on: onTransition,
@@ -38,17 +41,23 @@ const ProcessStateMachine = () => {
       setLoading(false);
     };
 
-    proccessStateMachine();
+    if (states && symbols) proccessStateMachine();
   }, []);
 
+  if (!states || !symbols) {
+    return <Navigate to="/" replace={true} />;
+  }
+
   return (
-    <div>
+    <>
       {loading ? (
-        <h2>Estamos procesando el automata</h2>
+        <div className="loading-spinner">
+          <Spinner />
+        </div>
       ) : (
         <StateMachineTest states={stateMachine} />
       )}
-    </div>
+    </>
   );
 };
 

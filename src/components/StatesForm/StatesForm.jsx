@@ -1,7 +1,10 @@
 import { useState, useContext } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { StateMachineContext } from '../../context';
+import Add from '../../assets/add.svg';
+import Delete from '../../assets/delete.svg';
+import './StatesForm.css';
 
 const StatesForm = () => {
   const [stateIndex, setStateIndex] = useState(1);
@@ -41,37 +44,54 @@ const StatesForm = () => {
     setStateIndex(prevStateIndex => prevStateIndex - 1);
   };
 
+  if (!stateTransitions || !symbols) {
+    return <Navigate to="/" replace={true} />;
+  }
+
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="states-form-container">
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h2 className="form-title">Ingrese el Automata finito</h2>
         {fields.map((field, index) => (
-          <div key={index}>
-            <label key={index} htmlFor="states">
-              Estado {`q${index}`}
-            </label>
-            {symbols.map(symbol => {
-              return (
-                <input
-                  id="states"
-                  {...register(`states.${index}.transitionOn${symbol}`, {
-                    required: true,
-                  })}
-                  key={`${field.id}${symbol}`}
-                  placeholder={`Transición con ${symbol}`}
-                />
-              );
-            })}
-            <input type="checkbox" {...register(`states.${index}.finalState`)} />
-            <span>Estado de aceptación?</span>
+          <div key={index} className="states-form-field">
+            <div className="state-form-field-transition">
+              <label key={index} htmlFor="states">
+                Estado {`q${index}`}
+              </label>
+              {symbols.map(symbol => {
+                return (
+                  <input
+                    id="states"
+                    {...register(`states.${index}.transitionOn${symbol}`, {
+                      required: true,
+                    })}
+                    key={`${field.id}${symbol}`}
+                    placeholder={`Transición con ${symbol}`}
+                    className="input"
+                  />
+                );
+              })}
+            </div>
+            <div className="state-form-field-final">
+              <input type="checkbox" {...register(`states.${index}.finalState`)} />
+              <span>¿El estado {`q${index}`} es de aceptación?</span>
+            </div>
           </div>
         ))}
-        {/* {errors.exampleRequired && <span>This field is required</span>}         */}
 
-        <button type="submit">Ingresar automata</button>
+        <div className="states-form-actions">
+          <span onClick={appendState}>
+            <img src={Add} alt="Add" />
+          </span>
+          <span onClick={removeState}>
+            <img src={Delete} alt="Add" />
+          </span>
+        </div>
+        <button type="submit" className="button">
+          Ingresar automata
+        </button>
       </form>
-      <button onClick={appendState}>Añadir estado</button>
-      <button onClick={removeState}>Remover estado</button>
-    </>
+    </div>
   );
 };
 
